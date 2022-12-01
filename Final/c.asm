@@ -6,10 +6,11 @@
 DATA SEGMENT
     MEMORY_ADDRESS DW 0B800H
     START_ADDRESS  DW 00A0H
+    HOUR_ADDRESS   DW 00E8H
     OFFSET_ADDRESS DW 00A0H
-    HOUR           DW 0
-    MINUTE         DW 0
-    SECOND         DW 0
+    HOUR           DW 23
+    MINUTE         DW 59
+    SECOND         DW 59
     NUM            DW ?
     FIRST_BIT      DB ?
     SECOND_BIT     DB ?
@@ -64,8 +65,7 @@ CLS ENDP
 TIMER_INIT PROC
                MOV    AX , MEMORY_ADDRESS
                MOV    ES , AX
-               MOV    SI , START_ADDRESS          ; FIRST LINE
-               ADD    SI, 72                      ; MIDDLE OF THE LINE
+               MOV    SI , HOUR_ADDRESS
                MOV    AH, 5H                      ; COLOR
                MOV    AL,'0'
                CALL   PRINT_CHAR
@@ -85,7 +85,38 @@ TIMER_INIT PROC
                CALL   PRINT_CHAR
                RET
 TIMER_INIT ENDP
-            
+SHOW_TIME PROC
+               PUSH   BX
+               MOV    BX, HOUR
+               MOV    NUM, BX
+               CALL   NUM_TO_DEC
+               MOV    SI, HOUR_ADDRESS
+               MOV    AL, FIRST_BIT
+               CALL   PRINT_CHAR
+               MOV    AL, SECOND_BIT
+               CALL   PRINT_CHAR
+               MOV    AL, ':'
+               CALL   PRINT_CHAR
+               MOV    BX, MINUTE
+               MOV    NUM, BX
+               CALL   NUM_TO_DEC
+               MOV    AL, FIRST_BIT
+               CALL   PRINT_CHAR
+               MOV    AL, SECOND_BIT
+               CALL   PRINT_CHAR
+               MOV    AL, ':'
+               CALL   PRINT_CHAR
+               MOV    BX, SECOND
+               MOV    NUM, BX
+               CALL   NUM_TO_DEC
+               MOV    AL, FIRST_BIT
+               CALL   PRINT_CHAR
+               MOV    AL, SECOND_BIT
+               CALL   PRINT_CHAR
+               POP    BX
+               RET
+SHOW_TIME ENDP
+
     INIT:      
                MOV    AX, DATA
                MOV    DS, AX
@@ -101,14 +132,7 @@ TIMER_INIT ENDP
     S1:        
                CALL   CLS                         ; CLEAR THE SCREEN
                CALL   TIMER_INIT                  ; INIT TIMER
-               MOV    NUM, 22
-               CALL   NUM_TO_DEC
-               MOV    SI, START_ADDRESS
-               ADD    SI, 72
-               MOV    AL, FIRST_BIT
-               CALL   PRINT_CHAR
-               MOV    AL, SECOND_BIT
-               CALL   PRINT_CHAR
+               CALL   SHOW_TIME
                JMP    EXIT
 CODE ENDS
 END START
