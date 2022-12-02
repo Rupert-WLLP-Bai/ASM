@@ -18,7 +18,7 @@
 ### 实现
 1. 使用loop实现循环
 2. 使用div实现十六进制数到十进制数的转换
-![](./Homework1/sum.png)
+![](https://s2.loli.net/2022/12/02/ZKPzi13TF8WOAux.png)
 
 ### 收获
 1. 了解了汇编语言中循环的实现
@@ -29,12 +29,12 @@
 
 ### 1. 输出乘法表
 1. 使用push/pop实现二重循环
-![](./Homework2/9x9.png)
+![](https://s2.loli.net/2022/12/02/tE7alAgRb8V3xqu.png)
 
 ### 2. 乘法表纠错
 1. lea指令的使用
 2. 函数调用的使用
-![](./Homework2/9x9err.png)
+![](https://s2.loli.net/2022/12/02/Wpba68KciPzwMx9.png)
 
 ## 作业三 函数调用
 时间：2022.10.26
@@ -42,7 +42,7 @@
 ### 1. 键盘输入年月日，输出年月日
 1. 使用函数调用实现
 2. 了解了0ah中断的使用
-![](./Homework3/proc.png)
+![](https://s2.loli.net/2022/12/02/SZeMW8pfoibrBqu.png)
 
 ## 作业四 拆分为三个文件
 时间：2022.11.13
@@ -58,7 +58,7 @@
         - 原因：include之后，data段是共享的，所以会出现重定义的问题
         - 解决：使用extrn声明
 4. 宏定义的写法(之后补上)
-![](./Homework4/a.png)
+![](https://s2.loli.net/2022/12/02/gYWpteXvcIjnHJM.png)
 
 ## 作业五 屏幕显示
 时间：2022.11.20  
@@ -97,8 +97,8 @@
 
 
 ### 效果
-![](Homework5/闪烁1.png)
-![](Homework5/闪烁2.png)
+![](https://s2.loli.net/2022/12/02/VXPMzx9G4Aatplc.png)
+![](https://s2.loli.net/2022/12/02/wg8PzZ6YQNa1yvi.png)
 
 ### 遇到的问题
 1. DATA段中定义多个字符串，EQU不能获得正确的字符串长度
