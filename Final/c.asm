@@ -197,7 +197,7 @@ SET_TIME PROC
                       POP    CX
                       POP    BX
                       POP    AX
-                      RET
+                      JMP    SHOW
 SET_TIME ENDP
     INIT:             
                       MOV    AX, DATA
@@ -215,13 +215,23 @@ SET_TIME ENDP
                       CALL   CLS                         ; CLEAR THE SCREEN
                       CALL   TIMER_INIT                  ; INIT TIMER
                       CALL   SHOW_TIME                   ; SHOW TIME
-                      
+    INT_SET:          
+                      PUSH   AX
+                      MOV    AL,00110110B                ;设置通道0的方式3
+                      OUT    43H,AL                      ;输出控制字
+                      MOV    AL, LOW(11932)        ;设置通道0的计数值
+                      OUT    40H,AL                      ;输出计数值
+                      MOV    AL, HIGH(11932)       ;设置通道0的计数值
+                      OUT    40H,AL                      ;输出计数值
+                      POP    AX
     TIMING:           
-                      MOV    DX,100                     ;初始化为0
+                      MOV    DX,100                      ;初始化为0
     RE:               
-                      CALL   SET_TIME
+                      IN     AL, 40H
+                      CMP    AL,0
+                      JE     SET_TIME
+    SHOW:             
                       CALL   SHOW_TIME                   ;显示时间
-                      CALL   DELAY                       ;延时
                       JMP    RE
     DO_ESC:           
                       JMP    EXIT
