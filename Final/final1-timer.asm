@@ -222,7 +222,7 @@ SET_TIME ENDP
                       MOV    AL, LOW(11932)        ;设置通道0的计数值
                       OUT    40H,AL                      ;输出计数值
                       MOV    AL, HIGH(11932)       ;设置通道0的计数值
-                      OUT    40H,AL                      ;输出计数值
+                      OUT    41H,AL                      ;输出计数值
                       POP    AX
     TIMING:           
                       MOV    DX,100                      ;初始化为0
