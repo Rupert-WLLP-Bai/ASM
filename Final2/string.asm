@@ -67,8 +67,8 @@ strncpy:
     ; initialize variables
     mov r8, rsi  ; r8 = src
     mov r9, rdi  ; r9 = dst
-    xor ecx, ecx ; ecx = 0 (index for copying characters)
-    xor eax, eax ; eax = 0 (zero byte for copying null terminator)
+    xor rcx, rcx ; rcx = 0 (index for copying characters)
+    xor rax, rax ; rax = 0 (zero byte for copying null terminator)
 
     ; copy characters from src to dst
     .copy_loop:
@@ -77,13 +77,16 @@ strncpy:
 
         mov dl, [r8+rcx]   ; load character from src
         mov [r9+rcx], dl   ; store character in dst
-        inc ecx            ; increment index
+        inc rcx            ; increment index
 
         jmp .copy_loop
 
     ; copy null terminator
     .done:
         mov [r9+rcx], al
+
+    ; add null terminator to end of string in buf
+    mov [r9+rcx+1], al
 
     ; return dst
     mov rax, r9
@@ -99,3 +102,47 @@ strncpy:
     mov rax, rdi
     ret
 
+
+
+global strcmp
+
+strcmp:
+    ; check for null pointers
+    cmp rdi, 0
+    jz .null_str1
+    cmp rsi, 0
+    jz .null_str2
+
+    ; initialize variables
+    mov r8, rsi  ; r8 = str1
+    mov r9, rdi  ; r9 = str2
+    xor rcx, rcx ; rcx = 0 (index for comparing characters)
+
+    ; compare characters from str1 and str2
+    .compare_loop:
+        cmp cl, dl      ; have we reached the end of either string?
+        jge .done       ; if yes, then done
+
+        mov al, [r8+rcx]    ; load character from str1
+        mov bl, [r9+rcx]    ; load character from str2
+        cmp al, bl          ; compare characters
+        jne .done           ; if not equal, then done
+
+        inc rcx             ; increment index
+
+        jmp .compare_loop
+
+    ; return result of comparison
+    .done:
+        mov rax, rcx
+        ret
+
+    ; return 0 if str1 is null
+    .null_str1:
+        xor rax, rax
+        ret
+
+    ; return -1 if str2 is null
+    .null_str2:
+        mov rax, -1
+        ret

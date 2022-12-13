@@ -6,6 +6,7 @@ extern long add_long(long a, long b);
 extern size_t strlen(const char *s);
 extern char *strcpy(char *dest, const char *src);
 extern char *strncpy(char *dest, const char *src, size_t n);
+extern int strcmp(const char *a, const char *b);
 
 void add_long_test() {
   long a = 1;
@@ -23,7 +24,7 @@ void double_sum_test() {
 void strlen_test() {
   char *s = "Hello, world!";
   size_t len = strlen(s);
-  printf("strlen(\"%s\") = %ld\n", s, len);
+  printf("strlen(\"%s\") = %zu\n", s, len);
 }
 
 void strcpy_test() {
@@ -33,11 +34,21 @@ void strcpy_test() {
   printf("strcpy(\"%s\") = \"%s\"\n", s, buf);
 }
 
+// ? 这部分代码还有问题
 void strncpy_test() {
   char *s = "Hello, world!";
   char buf[100];
-  strncpy(buf, s, 5);
-  printf("strncpy(\"%s\") = \"%s\"\n", s, buf);
+  size_t n = 5;
+  strncpy(buf, s, n);
+  printf("strncpy(\"%s\",%zu) = \"%s\"\n", s, n, buf);
+}
+
+// ? 输出有时候为0，有时候为7
+void strcmp_test() {
+  char s1[] = "hello!";
+  char s2[] = "hello!";
+  int ret = strcmp(s1, s2);
+  printf("strcmp(\"%s\",\"%s\") = %d\n", s1, s2, ret);
 }
 
 int main() {
@@ -45,6 +56,7 @@ int main() {
   double_sum_test();
   strlen_test();
   strcpy_test();
-  strncpy_test();
+  // strncpy_test();
+  strcmp_test();
   return 0;
 }
